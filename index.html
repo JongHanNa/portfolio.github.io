@@ -1,249 +1,498 @@
 <!DOCTYPE html>
 <html lang="ko">
     <head>
+        <style>
+        /* 애니메이션 및 동적 효과 */
+        @keyframes fade-in-up {
+          0% { opacity: 0; transform: translateY(40px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 1s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        @keyframes text-pop {
+          0% { transform: scale(0.8); opacity: 0; }
+          80% { transform: scale(1.1); opacity: 1; }
+          100% { transform: scale(1); }
+        }
+        .animate-text-pop {
+          animation: text-pop 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        @keyframes gradient-x {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 100% 50%; }
+        }
+        .animate-gradient-x {
+          background-size: 200% 200%;
+          animation: gradient-x 2.5s linear infinite alternate;
+        }
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-12px); }
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow 2.2s infinite;
+        }
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1; }
+        }
+        .animate-pulse-slow {
+          animation: pulse-slow 3.5s infinite;
+        }
+        @keyframes fade-in-delay-1 {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-delay-1 {
+          animation: fade-in-delay-1 1.2s 0.2s both;
+        }
+        @keyframes fade-in-delay-2 {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-delay-2 {
+          animation: fade-in-delay-2 1.2s 0.5s both;
+        }
+        @keyframes fade-in-delay-3 {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-delay-3 {
+          animation: fade-in-delay-3 1.2s 0.8s both;
+        }
+        @keyframes wiggle {
+          0%, 100% { transform: rotate(-2deg) scale(1); }
+          20% { transform: rotate(2deg) scale(1.05); }
+          40% { transform: rotate(-2deg) scale(1.08); }
+          60% { transform: rotate(2deg) scale(1.05); }
+          80% { transform: rotate(-2deg) scale(1.02); }
+        }
+        .animate-wiggle {
+          animation: wiggle 1.8s infinite;
+        }
+        .animate-wiggle-delay {
+          animation: wiggle 1.8s 0.9s infinite;
+        }
+        /* 글자에 글리터/샤인 효과 */
+        .shimmer-text {
+          position: relative;
+          overflow: hidden;
+          background: linear-gradient(90deg, #f7b500 0%, #fffbe6 40%, #7a5c1e 100%);
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shimmer-move 2.5s linear infinite;
+        }
+        @keyframes shimmer-move {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 100% 50%; }
+        }
+        /* Hero 전체 묶음 부드러운 플로팅 */
+        @keyframes hero-float {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-12px) scale(1.01); }
+        }
+        .animate-hero-float {
+          animation: hero-float 4.5s ease-in-out infinite;
+        }
+        /* 스크롤 등장 애니메이션 */
+        @keyframes fade-in-up-impact {
+          0% {
+            opacity: 0;
+            transform: scale(0.85) translateY(80px);
+            filter: drop-shadow(0 16px 48px #f7b50033);
+          }
+          60% {
+            opacity: 1;
+            transform: scale(1.08) translateY(-10px);
+            filter: drop-shadow(0 16px 48px #f7b50055);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            filter: drop-shadow(0 4px 16px #f7b50022);
+          }
+        }
+        .scroll-fade-up {
+          opacity: 0;
+          transform: scale(0.92) translateY(60px);
+          filter: drop-shadow(0 0 0 #f7b50000);
+          transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1), filter 0.8s cubic-bezier(0.23,1,0.32,1);
+        }
+        .scroll-fade-up.visible {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+          filter: drop-shadow(0 8px 32px #f7b50033);
+          animation: fade-in-up-impact 1.15s cubic-bezier(0.23,1,0.32,1);
+          animation-fill-mode: both;
+        }
+        </style>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>My Portfolio</title>
-        <!-- Bootstrap 5 CSS CDN -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <link href="css/custom.css" rel="stylesheet" />
+        <!-- Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body>
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container">
-                    <a class="navbar-brand" href="#">My Portfolio</a>
-                    <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                        aria-controls="navbarNav"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#home">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#about">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#projects"
-                                    >Projects</a
-                                >
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#contact">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+        <header class="bg-gray-900 text-white sticky top-0 z-50 shadow">
+            <nav
+                class="container mx-auto flex items-center justify-between py-4 px-4"
+            >
+                <a href="#home" class="text-2xl font-bold tracking-tight"
+                    >Portfolio</a
+                >
+                <ul class="flex gap-6 text-base font-medium">
+                    <li>
+                        <a href="#home" class="hover:text-blue-400 transition"
+                            >Home</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#about" class="hover:text-blue-400 transition"
+                            >About</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#skills" class="hover:text-blue-400 transition"
+                            >Skills</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="#projects"
+                            class="hover:text-blue-400 transition"
+                            >Projects</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="#experience"
+                            class="hover:text-blue-400 transition"
+                            >Experience</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#blog" class="hover:text-blue-400 transition"
+                            >Blog</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="#contact"
+                            class="hover:text-blue-400 transition"
+                            >Contact</a
+                        >
+                    </li>
+                </ul>
             </nav>
         </header>
 
         <main>
-            <section id="home" class="py-5 bg-light text-center">
-                <div class="container">
-                    <h1 class="display-4 mb-3 fw-bold text-blue">나종한의 Indie Hacker Portfolio</h1>
-                    <p class="lead mb-4">
-                        <span class="badge bg-primary mb-2 fs-6">Focus on What Matters</span><br />
-                        <span class="d-block mt-2">사람들이 일상의 <span class="fw-semibold text-primary">가치 있는 것들</span>에 더욱 집중할 수 있도록,<br class="d-none d-md-inline" /> 실질적인 도움을 주는 앱과 서비스를 만듭니다.</span>
-                        <span class="d-block">불필요한 반복과 방해 요소를 줄이고, <span class="fw-semibold">삶의 본질</span>에 더 가까워질 수 있도록 돕는 것이 저의 목표입니다.</span>
-                        <span class="d-block">작은 아이디어에서 출발해, <span class="fw-semibold">실행과 성장</span>을 반복하며 <span class="fw-semibold text-primary">진짜 가치</span>를 만드는 개발자.</span>
-                    </p>
+            <!-- Hero Section (라이언 분위기 맞춤) -->
+            <section
+                id="home"
+                class="relative overflow-hidden py-24 bg-[#f7e6c4] scroll-fade-up"
+            >
+                <!-- 라이언 전체 배경 이미지 (섹션 전체 커버, 더 흐림 + 블러) -->
+                <div class="absolute inset-0 w-full h-full z-0">
+                    <img src="https://i.pinimg.com/736x/8e/0b/97/8e0b977759078cec28d54675519e2975.jpg" alt="라이언 일러스트 배경" class="w-full h-full object-cover object-center select-none pointer-events-none" style="filter: blur(2.5px); opacity: 1;" />
+                    <div class="absolute inset-0 w-full h-full bg-gradient-to-b from-[#f7e6c4]/90 via-[#f7e6c4]/70 to-white/90"></div>
+                </div>
+                <div class="container mx-auto px-4 relative z-10 flex flex-col items-center justify-end min-h-[600px] md:min-h-[700px]">
+                    <!-- 더 크고 친근한 인삿말과 배치, 텍스트 강조 -->
+                    <div class="flex flex-col items-center w-full max-w-3xl mb-12">
+                        <div class="group relative flex flex-col items-center w-full max-w-3xl mb-12 will-change-transform animate-hero-float">
+        <h1 class="text-5xl md:text-7xl font-extrabold text-center bg-white/80 px-8 py-4 rounded-3xl mb-4 tracking-tight shadow-lg border-4 border-[#f7b500]/20 animate-fade-in-up">
+            <span class="block mb-2 text-4xl md:text-6xl">안녕하세요!</span>
+            <span class="block text-3xl md:text-5xl text-[#7a5c1e]">나종한입니다</span>
+        </h1>
+        <span class="inline-block bg-[#f7b500] text-white rounded-full px-6 py-2 text-xl md:text-2xl font-bold shadow mb-4 tracking-wide">함께 성장하는 인디해커</span>
+        <div class="relative text-lg md:text-2xl text-[#6a4c1e] font-semibold space-y-4 text-center bg-white/70 px-8 py-6 rounded-2xl max-w-2xl mb-6 shadow-lg overflow-hidden">
+            <span class="absolute -top-8 -left-8 w-32 h-32 bg-[#f7b500]/20 rounded-full blur-2xl animate-pulse-slow"></span>
+            <span class="absolute -bottom-8 -right-8 w-32 h-32 bg-[#f7b500]/10 rounded-full blur-2xl animate-pulse-slow"></span>
+            <p class="animate-fade-in-delay-1">사람들이 <span class="font-extrabold text-[#f7b500]">진짜 중요한 것</span>에 집중할 수 있도록,<br class="hidden md:inline"/> 도움을 주는 서비스를 만듭니다.</p>
+            <p class="animate-fade-in-delay-2">불필요한 반복과 방해 요소는 줄이고,<br class="hidden md:inline"/> <span class="font-extrabold">삶의 본질</span>에 가까워지는 경험을 추구해요.</p>
+            <p class="animate-fade-in-delay-3">작은 아이디어도 <span class="font-extrabold text-[#f7b500]">실행</span>하고,<br class="hidden md:inline"/> <span class="font-extrabold">성장</span>을 반복하는 개발자입니다.</p>
+        </div>
+        <div class="flex flex-col md:flex-row gap-4 justify-center mt-2 w-full max-w-xl">
+            <a href="#projects" class="bg-[#f7b500] hover:bg-[#e67e22] text-white font-extrabold text-xl md:text-2xl py-4 px-10 rounded-full shadow-xl transition-transform border-2 border-[#f7b500]/30 text-center">프로젝트 보기</a>
+            <a href="#contact" class="bg-white/90 hover:bg-[#f7e6c4] text-[#f7b500] font-extrabold text-xl md:text-2xl py-4 px-10 rounded-full shadow-xl transition-transform border-2 border-[#f7b500] text-center">연락하기</a>
+        </div>
+    </div>
+</div>
+                    </div>
                 </div>
             </section>
 
-            <section id="about" class="py-5">
-                <div class="container">
-                    <h2 class="text-center mb-4">About Me</h2>
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
-                            <article class="p-4 shadow rounded bg-white">
-                                <div
-                                    class="d-flex flex-column align-items-center gap-3"
-                                >
-                                    <img
-                                        src="https://avatars.githubusercontent.com/u/00000000?v=4"
-                                        alt="나종한 프로필"
-                                        class="rounded-circle shadow"
-                                        width="120"
-                                        height="120"
-                                        style="
-                                            object-fit: cover;
-                                            border: 4px solid #0d6efd;
-                                        "
-                                    />
-                                    <h3 class="fw-bold text-blue mb-2">
-                                        나종한
-                                    </h3>
-                                    <p
-                                        class="text-center mb-2"
-                                        style="max-width: 600px"
-                                    >
-                                        <span class="badge bg-primary mb-2"
-                                            >Indie Hacker & Maker</span
-                                        ><br />
-                                        안녕하세요!<span class="fw-semibold">
-                                            인디해커</span
-                                        >
-                                        <span class="text-primary">나종한</span
-                                        >입니다.<br />
-                                        <span class="d-block mt-2">
-                                            작은 아이디어를 빠르게 실현하고,
-                                            직접 서비스를 만들어 세상에 선보이는
-                                            것을 즐깁니다.
-                                        </span>
-                                        <span class="d-block">
-                                            사용자 중심의 문제 해결과
-                                            <span class="fw-semibold"
-                                                >지속 가능한 수익 모델</span
-                                            >을 고민하며, 혼자 또는 소규모
-                                            팀으로 다양한 웹 프로젝트를
-                                            기획·개발해왔습니다.
-                                        </span>
-                                        <span class="d-block">
-                                            <span class="fw-semibold"
-                                                >Node.js/Nexst.js</span
-                                            >
-                                            등 최신 기술을 적극적으로
-                                            활용합니다.
-                                        </span>
-                                        <span class="d-block">
-                                            실패를 두려워하지 않고,
-                                            <span class="text-primary"
-                                                >실행과 학습</span
-                                            >을 반복하며 성장하는 것이 저의 가장
-                                            큰 무기입니다.
-                                        </span>
-                                        <span class="d-block">
-                                            앞으로도 더 많은 사람들에게 가치를
-                                            주는 서비스를 만들고, 인디해커로서의
-                                            여정을 이어가고 싶습니다.
-                                        </span>
-                                    </p>
-                                </div>
-                            </article>
+            <!-- About Section -->
+            <section id="about" class="py-20 bg-[#fff7e0] scroll-fade-up">
+                <div class="container mx-auto px-4 max-w-3xl">
+                    <h2 class="text-3xl font-extrabold text-left md:text-center mb-8 text-[#f7b500] drop-shadow tracking-tight">About Me</h2>
+                    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                        <div class="flex-shrink-0 flex flex-col items-center md:items-start w-full md:w-1/3">
+                            <div class="w-28 h-28 md:w-32 md:h-32 rounded-full bg-[#f7e6c4] border-4 border-[#f7b500]/40 shadow-lg flex items-center justify-center mb-4">
+                                <img src="https://i.pinimg.com/736x/8e/0b/97/8e0b977759078cec28d54675519e2975.jpg" alt="라이언 프로필" class="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover object-center" />
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-bold text-[#f7b500] mb-1">나종한</h3>
+                            <span class="inline-block bg-[#f7e6c4] text-[#f7b500] px-3 py-1 rounded-full text-sm font-semibold mb-2">Indie Hacker & Maker</span>
+                        </div>
+                        <div class="flex-1 text-left md:text-lg text-[#7a5c1e] space-y-3 bg-white/70 rounded-2xl px-6 py-6 shadow-md">
+                            <p class="font-semibold text-base md:text-lg text-[#f7b500] mb-2">“작은 아이디어를 빠르게 실현하고, 직접 서비스를 만들어 세상에 선보이는 것을 즐깁니다.”</p>
+                            <p>사용자 중심의 문제 해결과 <span class="font-semibold">지속 가능한 수익 모델</span>을 고민하며, 혼자 또는 소규모 팀으로 다양한 웹 프로젝트를 기획·개발해왔습니다.</p>
+                            <p><span class="font-semibold">Node.js/Next.js</span> 등 최신 기술을 적극적으로 활용합니다.</p>
+                            <p>실패를 두려워하지 않고, <span class="text-[#f7b500]">실행과 학습</span>을 반복하며 성장하는 것이 저의 가장 큰 무기입니다.</p>
+                            <p>앞으로도 더 많은 사람들에게 가치를 주는 서비스를 만들고, 인디해커로서의 여정을 이어가고 싶습니다.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="projects" class="py-5 bg-light">
-                <div class="container">
-                    <h2 class="text-center mb-4">Projects</h2>
-                    <div class="row g-4">
-                        <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">Todo List App</h5>
-                                    <p class="card-text">
-                                        React와 Bootstrap을 활용해 제작한 할 일
-                                        관리 애플리케이션입니다. 직관적인 UI와
-                                        실시간 상태 관리로 효율적인 일정 관리를
-                                        지원합니다.
-                                    </p>
-                                    <a href="#" class="btn btn-primary mt-auto"
-                                        >자세히 보기</a
-                                    >
-                                </div>
+            <!-- Skills Section -->
+            <section id="skills" class="py-20 bg-[#f7e6c4] scroll-fade-up">
+                <div class="container mx-auto px-4 max-w-4xl">
+                    <h2
+                        class="text-3xl font-bold text-center mb-8 text-[#f7b500] drop-shadow"
+                    >
+                        Skills
+                    </h2>
+                    <div
+                        class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center"
+                    >
+                        <div>
+                            <div class="text-4xl mb-2">💻</div>
+                            <div class="font-semibold text-[#7a5c1e]">
+                                JavaScript
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">
-                                        Portfolio Website
-                                    </h5>
-                                    <p class="card-text">
-                                        HTML, CSS, JavaScript로 제작한 반응형
-                                        포트폴리오 웹사이트입니다. 다양한
-                                        프로젝트와 자기소개, 연락처 정보를
-                                        한눈에 볼 수 있습니다.
-                                    </p>
-                                    <a href="#" class="btn btn-primary mt-auto"
-                                        >자세히 보기</a
-                                    >
-                                </div>
+                        <div>
+                            <div class="text-4xl mb-2">⚛️</div>
+                            <div class="font-semibold text-[#7a5c1e]">
+                                React / Next.js
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">
-                                        Weather Dashboard
-                                    </h5>
-                                    <p class="card-text">
-                                        OpenWeatherMap API를 활용해 실시간 날씨
-                                        정보를 제공하는 대시보드입니다. 도시별
-                                        날씨 검색과 시각화 기능을 제공합니다.
-                                    </p>
-                                    <a href="#" class="btn btn-primary mt-auto"
-                                        >자세히 보기</a
-                                    >
-                                </div>
+                        <div>
+                            <div class="text-4xl mb-2">🌐</div>
+                            <div class="font-semibold text-[#7a5c1e]">
+                                HTML / CSS / Tailwind
                             </div>
                         </div>
+                        <div>
+                            <div class="text-4xl mb-2">🗄️</div>
+                            <div class="font-semibold text-[#7a5c1e]">
+                                Node.js
+                            </div>
+                        </div>
+                        <!-- 필요시 추가 -->
                     </div>
                 </div>
             </section>
 
-            <section id="contact" class="py-5">
-                <div class="container">
-                    <h2 class="text-center mb-4">Contact</h2>
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            <form class="p-4 shadow rounded bg-white">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label"
-                                        >이름</label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="name"
-                                        placeholder="이름을 입력하세요"
-                                    />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label"
-                                        >이메일</label
-                                    >
-                                    <input
-                                        type="email"
-                                        class="form-control"
-                                        id="email"
-                                        placeholder="이메일을 입력하세요"
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    class="btn btn-success w-100"
-                                >
-                                    제출하기
-                                </button>
-                            </form>
+            <!-- Projects Section -->
+            <section id="projects" class="py-20 bg-[#fff7e0] scroll-fade-up">
+                <div class="container mx-auto px-4 max-w-5xl">
+                    <h2
+                        class="text-3xl font-bold text-center mb-8 text-[#f7b500] drop-shadow"
+                    >
+                        Projects
+                    </h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div
+                            class="bg-[#f7e6c4] rounded-xl shadow p-6 flex flex-col"
+                        >
+                            <h3 class="text-xl font-bold mb-2 text-[#f7b500]">
+                                Todo List App
+                            </h3>
+                            <p class="text-[#7a5c1e] mb-4">
+                                React와 Tailwind CSS로 제작한 할 일 관리
+                                애플리케이션입니다. 직관적인 UI와 실시간 상태
+                                관리로 효율적인 일정 관리를 지원합니다.
+                            </p>
+                            <a
+                                href="#"
+                                class="mt-auto text-[#f7b500] hover:underline font-semibold"
+                                >자세히 보기</a
+                            >
                         </div>
+                        <div
+                            class="bg-[#f7e6c4] rounded-xl shadow p-6 flex flex-col"
+                        >
+                            <h3 class="text-xl font-bold mb-2 text-[#f7b500]">
+                                Portfolio Website
+                            </h3>
+                            <p class="text-[#7a5c1e] mb-4">
+                                HTML, Tailwind CSS, JavaScript로 제작한 반응형
+                                포트폴리오 웹사이트입니다. 다양한 프로젝트와
+                                자기소개, 연락처 정보를 한눈에 볼 수 있습니다.
+                            </p>
+                            <a
+                                href="#"
+                                class="mt-auto text-[#f7b500] hover:underline font-semibold"
+                                >자세히 보기</a
+                            >
+                        </div>
+                        <div
+                            class="bg-[#f7e6c4] rounded-xl shadow p-6 flex flex-col"
+                        >
+                            <h3 class="text-xl font-bold mb-2 text-[#f7b500]">
+                                Weather Dashboard
+                            </h3>
+                            <p class="text-[#7a5c1e] mb-4">
+                                OpenWeatherMap API를 활용해 실시간 날씨 정보를
+                                제공하는 대시보드입니다. 도시별 날씨 검색과
+                                시각화 기능을 제공합니다.
+                            </p>
+                            <a
+                                href="#"
+                                class="mt-auto text-[#f7b500] hover:underline font-semibold"
+                                >자세히 보기</a
+                            >
+                        </div>
+                        <!-- 필요시 프로젝트 추가 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section -->
+            <section id="experience" class="py-20 bg-[#f7e6c4] scroll-fade-up">
+                <div class="container mx-auto px-4 max-w-4xl">
+                    <h2
+                        class="text-3xl font-bold text-center mb-8 text-[#f7b500] drop-shadow"
+                    >
+                        Experience
+                    </h2>
+                    <div class="space-y-6">
+                        <div class="bg-white/80 rounded-lg shadow p-6">
+                            <h3 class="font-bold text-lg text-[#f7b500]">
+                                프로젝트 개발자
+                            </h3>
+                            <p class="text-[#7a5c1e]">
+                                2011 ~ 현재 | SI 프로젝트 개발 프리랜서활동 및
+                                다양한 웹/모바일 서비스 기획 및 개발
+                            </p>
+                        </div>
+                        <!-- 필요시 경력 추가 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Blog Section -->
+            <section id="blog" class="py-20 bg-[#fff7e0] scroll-fade-up">
+                <div class="container mx-auto px-4 max-w-4xl">
+                    <h2
+                        class="text-3xl font-bold text-center mb-8 text-[#f7b500] drop-shadow"
+                    >
+                        Blog
+                    </h2>
+                    <div class="space-y-4 text-center text-[#7a5c1e]">
+                        <p>
+                            아직 게시글이 없습니다.
+                            <span class="text-[#f7b500]"
+                                >Notion, Velog, GitHub Blog</span
+                            >
+                            등 외부 링크로 연결할 수 있습니다.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="py-20 bg-[#f7e6c4] scroll-fade-up">
+                <div class="container mx-auto px-4 max-w-xl">
+                    <h2
+                        class="text-3xl font-bold text-center mb-8 text-[#f7b500] drop-shadow"
+                    >
+                        Contact
+                    </h2>
+                    <form class="bg-[#fff7e0] rounded-xl shadow p-8 space-y-6">
+                        <div>
+                            <label
+                                for="name"
+                                class="block font-semibold mb-1 text-[#7a5c1e]"
+                                >이름</label
+                            >
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                class="w-full px-4 py-2 rounded border border-[#f7b500] focus:ring-2 focus:ring-[#f7b500] outline-none bg-white/80"
+                                placeholder="이름을 입력하세요"
+                            />
+                        </div>
+                        <div>
+                            <label
+                                for="email"
+                                class="block font-semibold mb-1 text-[#7a5c1e]"
+                                >이메일</label
+                            >
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="w-full px-4 py-2 rounded border border-[#f7b500] focus:ring-2 focus:ring-[#f7b500] outline-none bg-white/80"
+                                placeholder="이메일을 입력하세요"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            class="w-full bg-[#f7b500] hover:bg-[#e67e22] text-white font-bold py-2 px-6 rounded-full shadow transition"
+                        >
+                            제출하기
+                        </button>
+                    </form>
+                    <div class="mt-8 text-center text-[#7a5c1e]">
+                        <span class="mr-2">이메일:</span>
+                        <a
+                            href="mailto:your@email.com"
+                            class="text-[#f7b500] hover:underline"
+                            >your@email.com</a
+                        >
+                        <span class="mx-2">|</span>
+                        <a
+                            href="https://github.com/your-github"
+                            class="text-[#f7b500] hover:underline"
+                            target="_blank"
+                            >GitHub</a
+                        >
+                        <span class="mx-2">|</span>
+                        <a
+                            href="https://linkedin.com/in/your-linkedin"
+                            class="text-[#f7b500] hover:underline"
+                            target="_blank"
+                            >LinkedIn</a
+                        >
                     </div>
                 </div>
             </section>
         </main>
 
-        <footer class="bg-dark text-white text-center py-3 mt-5">
-            <div class="container">
+        <footer class="bg-gray-900 text-white text-center py-6 mt-12">
+            <div class="container mx-auto px-4">
                 <small>&copy; 2025 나종한. All rights reserved.</small>
             </div>
         </footer>
-
-        <!-- Bootstrap 5 JS CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+        // Intersection Observer로 스크롤 등장 애니메이션을 각 섹션마다 진입할 때마다 한 번만 실행
+        (function() {
+          const ANIMATION_CLASS = 'visible';
+          function triggerAnimation(el) {
+            el.classList.remove(ANIMATION_CLASS);
+            void el.offsetWidth;
+            el.classList.add(ANIMATION_CLASS);
+          }
+          const observer = new window.IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              const el = entry.target;
+              if (entry.isIntersecting) {
+                triggerAnimation(el);
+                observer.unobserve(el); // 한 번만 등장
+              }
+            });
+          }, { threshold: 0.15 });
+          document.querySelectorAll('.scroll-fade-up').forEach(el => {
+            observer.observe(el);
+          });
+        })();
+        </script>
     </body>
 </html>
